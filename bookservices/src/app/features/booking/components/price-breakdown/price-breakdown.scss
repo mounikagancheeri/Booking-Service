@@ -1,0 +1,63 @@
+@use '../../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  @include mixins.type(body-sm);
+}
+
+dt {
+  color: var(--color-on-surface-variant);
+}
+
+dd {
+  display: flex;
+  gap: var(--space-sm);
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+s {
+  color: var(--color-on-surface-variant);
+  font-weight: 400;
+}
+
+.note {
+  color: var(--color-verified);
+}
+
+.total {
+  margin-top: var(--space-xs);
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--color-border-strong);
+
+  dt {
+    @include mixins.type(label-lg);
+    color: var(--color-on-surface);
+  }
+
+  dd {
+    @include mixins.type(headline-md);
+    color: var(--color-primary);
+  }
+}
+
+.total-note {
+  display: block;
+  @include mixins.type(label-sm);
+  color: var(--color-on-surface-variant);
+}

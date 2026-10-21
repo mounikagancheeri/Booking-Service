@@ -1,0 +1,101 @@
+// BookIt design tokens, taken from the Claude Design canvas "BookIt"
+// (https://claude.ai/artifact/BsAqRWcBi47AEtH4z7o6xm). Role names are kept from the
+// earlier Stitch tokens so components did not need renaming.
+:root {
+  // Color roles. `primary` is the text/icon indigo, `primary-container` the fill for
+  // buttons and selected states (white text on it passes 4.5:1).
+  --color-primary: #4338ca;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-primary-fixed: #e0e7ff;
+  --color-on-primary-fixed: #3730a3;
+
+  // Amber, for ratings and highlights.
+  --color-secondary: #b45309;
+  --color-secondary-container: #f59e0b;
+  --color-on-secondary-container: #451a03;
+  --color-secondary-fixed: #fef3c7;
+  --color-on-secondary-fixed: #451a03;
+  --color-on-secondary-fixed-variant: #92400e;
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-bg: #eef2ff;
+  --color-accent-border: #c7d2fe;
+
+  // Green, for open slots, availability and verification.
+  --color-tertiary: #065f46;
+  --color-tertiary-container: #047857;
+  --color-tertiary-fixed: #a7f3d0;
+  --color-on-tertiary-fixed: #022c22;
+  --color-verified: #047857;
+  --color-verified-bg: #ecfdf5;
+  --color-verified-border: #a7f3d0;
+
+  --color-surface: #ffffff;
+  --color-surface-lowest: #ffffff;
+  --color-surface-low: #f3f4f6;
+  --color-surface-container: #eef2ff;
+  --color-surface-high: #e0e7ff;
+  --color-surface-highest: #c7d2fe;
+  --color-on-surface: #111827;
+  --color-on-surface-variant: #4b5563;
+  --color-outline: #6b7280;
+  --color-outline-variant: #d1d5db;
+  --color-border: #eef0f4;
+  --color-border-strong: #e5e7eb;
+
+  --color-error: #dc2626;
+  --color-star: #f59e0b;
+  --color-skeleton: #eef2ff;
+  --color-skeleton-highlight: #f5f7ff;
+
+  /** Translucent fill for sticky top and bottom bars. */
+  --color-bar: rgb(255 255 255 / 88%);
+  /** Lavender wash at the top of every page, fading to white. */
+  --page-background: linear-gradient(180deg, #e0e7ff 0, #ffffff 340px) no-repeat, #ffffff;
+
+  // Typography: Inter throughout, headings at 600-700.
+  --font-headline: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  // Shape: soft 14-20px cards, pill buttons.
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-full: 9999px;
+
+  // Spacing
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --gutter: 1rem;
+  --page-margin: 1.25rem;
+  /** Widest the page content gets on large screens; headers align to it too. */
+  --content-max: 1200px;
+  --header-height: 64px;
+
+  // Elevation
+  --shadow-1: 0 4px 14px rgb(17 24 39 / 6%);
+  --shadow-2: 0 6px 20px rgb(17 24 39 / 8%);
+  --shadow-3: 0 16px 32px rgb(17 24 39 / 12%);
+  --shadow-primary: 0 6px 16px rgb(79 70 229 / 30%);
+
+  --focus-ring: 0 0 0 2px var(--color-surface-lowest), 0 0 0 4px var(--color-primary-container);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 1.25rem;
+    --page-margin: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 1.5rem;
+    --page-margin: 3rem;
+  }
+}

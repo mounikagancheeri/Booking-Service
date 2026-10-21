@@ -1,0 +1,111 @@
+<app-header location="Hyderabad • Banjara Hills" userName="Priya Reddy" />
+
+<main class="page">
+  @if (loading()) {
+    <p class="empty full" role="status">Loading specialists�</p>
+  } @else if (category(); as c) {
+    <nav class="crumbs full" aria-label="Breadcrumb">
+      <a routerLink="/">Home</a>
+      <app-icon name="chevron_right" [size]="16" />
+      <span aria-current="page">{{ c.label }}</span>
+    </nav>
+
+    <header class="intro full">
+      <h1>
+        {{ c.label }} Specialists
+        <app-badge variant="verified">{{ specialists().length }} nearby</app-badge>
+      </h1>
+      <p>Vetted professionals serving Hyderabad • Banjara Hills</p>
+    </header>
+
+    <div class="filters full" role="group" aria-label="Sort and filter">
+      <button appFilterChip [toggle]="false" trailingIcon="swap_vert" (click)="cycleSort()">
+        Sort: {{ sort() }}
+      </button>
+      <button
+        appFilterChip
+        icon="today"
+        [selected]="todayOnly()"
+        (click)="todayOnly.set(!todayOnly())"
+      >
+        Today
+      </button>
+      <button
+        appFilterChip
+        icon="star"
+        [selected]="topRatedOnly()"
+        (click)="topRatedOnly.set(!topRatedOnly())"
+      >
+        4.8+ rated
+      </button>
+      <button
+        appFilterChip
+        icon="sell"
+        [selected]="budgetOnly()"
+        (click)="budgetOnly.set(!budgetOnly())"
+      >
+        Under ₹500
+      </button>
+      <button
+        appFilterChip
+        icon="verified"
+        [selected]="verifiedOnly()"
+        (click)="verifiedOnly.set(!verifiedOnly())"
+      >
+        Verified only
+      </button>
+    </div>
+
+    <div class="main">
+      <p class="escrow">
+        <app-icon name="shield" [size]="18" filled />
+        <span
+          ><strong>SkillConnect Escrow:</strong> funds held safely until inspection passes.</span
+        >
+        <app-badge variant="verified">100% covered</app-badge>
+      </p>
+
+      <section class="list" aria-label="Specialists">
+        @for (provider of specialists(); track provider.id; let first = $first) {
+          <app-specialist-card
+            [provider]="provider"
+            [selected]="provider.id === selectedId()"
+            [fastest]="first"
+            (pick)="selectedId.set($event)"
+            (viewProfile)="viewProfile($event)"
+            (book)="book($event)"
+          />
+        } @empty {
+          <div class="empty">
+            <app-icon name="person_search" [size]="28" />
+            <p>No specialists match these filters.</p>
+            <button appFilterChip [toggle]="false" icon="restart_alt" (click)="clearFilters()">
+              Clear filters
+            </button>
+          </div>
+        }
+      </section>
+    </div>
+
+    <aside class="aside" aria-label="Coverage and guarantee">
+      <section class="coverage" aria-label="Coverage">
+        <app-icon name="near_me" [size]="22" />
+        <div>
+          <p class="coverage-title">Coverage map</p>
+          <p>9 techs active now • Banjara Hills & 8 km radius</p>
+        </div>
+      </section>
+
+      <app-callout icon="verified_user" heading="30-Day Workmanship Warranty">
+        Every job booked via SkillConnect is backed by a 30-day post-service guarantee and direct
+        emergency escalation.
+      </app-callout>
+    </aside>
+  } @else {
+    <p class="empty full">
+      This service category doesn't exist. <a routerLink="/">Back to Home</a>
+    </p>
+  }
+</main>
+
+<app-bottom-nav [items]="navItems" activeId="home" />

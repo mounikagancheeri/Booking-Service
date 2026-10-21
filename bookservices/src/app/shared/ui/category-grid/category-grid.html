@@ -1,0 +1,25 @@
+@if (loading()) {
+  <div class="grid" role="status" aria-label="Loading categories">
+    @for (n of placeholders; track n) {
+      <app-category-tile loading />
+    }
+  </div>
+} @else if (categories().length === 0) {
+  <p class="empty">
+    <app-icon name="category" [size]="24" />
+    {{ emptyText() }}
+  </p>
+} @else {
+  <div class="grid" role="group" [attr.aria-label]="label()">
+    @for (category of categories(); track category.id) {
+      <app-category-tile
+        [icon]="category.icon"
+        [label]="category.label"
+        [caption]="category.caption"
+        [selected]="category.id === selectedId()"
+        [disabled]="!!category.disabled"
+        (picked)="selectedId.set(category.id)"
+      />
+    }
+  </div>
+}

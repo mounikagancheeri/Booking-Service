@@ -1,0 +1,142 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.page {
+  @include mixins.flow-page($bottom-bar: false);
+}
+
+.intro {
+  h2 {
+    @include mixins.type(headline-lg);
+  }
+
+  p {
+    @include mixins.type(body-sm);
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.pro,
+.service {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  @include mixins.type(label-lg);
+  color: var(--color-on-surface);
+}
+
+.muted {
+  @include mixins.type(body-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.with-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  &.top {
+    align-items: flex-start;
+    @include mixins.type(body-sm);
+  }
+}
+
+.service-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+}
+
+.price {
+  @include mixins.type(headline-sm);
+  color: var(--color-primary);
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-low);
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  dt {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    @include mixins.type(label-md);
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+  }
+
+  dd {
+    margin: 0;
+    @include mixins.type(label-lg);
+    text-align: right;
+  }
+}
+
+.notes {
+  padding: 0.75rem;
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-bg);
+  @include mixins.type(body-sm);
+}
+
+.notes-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xs);
+  @include mixins.type(label-md);
+  color: var(--color-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-top: var(--space-sm);
+}
+
+.secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  @include mixins.type(label-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.contact-name {
+  font-weight: 600;
+  color: var(--color-on-surface);
+}

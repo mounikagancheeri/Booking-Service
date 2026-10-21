@@ -1,0 +1,49 @@
+<main class="page">
+  <header class="top">
+    <span class="brand">
+      <span class="logo"><app-icon name="home_repair_service" [size]="18" filled /></span>
+      SkillConnect
+    </span>
+    <a class="skip" routerLink="/">Skip</a>
+  </header>
+
+  <div class="hero" aria-hidden="true">
+    <div class="tiles">
+      @for (icon of heroIcons; track icon; let i = $index) {
+        <span class="tile" [class.tile--accent]="i === 1">
+          <app-icon [name]="icon" [size]="28" />
+        </span>
+      }
+    </div>
+    <div class="arriving">
+      <app-avatar name="Rahul Sharma" [size]="40" />
+      <span class="arriving-text">
+        <strong>Rahul Sharma is on the way</strong>
+        <span>AC Repair · Arriving in 12 min</span>
+      </span>
+      <span class="tick"><app-icon name="check" [size]="16" /></span>
+    </div>
+  </div>
+
+  <section class="intro">
+    <h1>Verified home pros,<br />booked in a few taps</h1>
+    <p>
+      Cleaning, repairs, AC service and salon at home, from background-checked professionals near
+      you in Hyderabad.
+    </p>
+  </section>
+
+  <ul class="promises">
+    @for (text of promises; track text) {
+      <li>
+        <span class="check"><app-icon name="check" [size]="14" /></span>
+        {{ text }}
+      </li>
+    }
+  </ul>
+
+  <div class="actions">
+    <a appButton fullWidth routerLink="/login">Get started</a>
+    <a class="login" routerLink="/login">Already have an account? <span>Log in</span></a>
+  </div>
+</main>

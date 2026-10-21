@@ -1,0 +1,123 @@
+@use '../../../../styles/mixins';
+
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 64px;
+  padding-top: env(safe-area-inset-top, 0);
+  @include mixins.content-inline-padding;
+  background: var(--color-bar);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.name {
+  @include mixins.type(headline-sm);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-on-surface-variant);
+  @include mixins.type(label-md);
+  cursor: pointer;
+  @include mixins.focus-ring;
+
+  &:hover {
+    color: var(--color-on-surface);
+  }
+}
+
+.pin {
+  color: var(--color-accent);
+}
+
+.location-text {
+  max-width: 160px;
+  @include mixins.truncate;
+
+  @include mixins.bp(tablet) {
+    max-width: none;
+  }
+}
+
+.tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.icon-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--color-on-surface);
+  cursor: pointer;
+  @include mixins.focus-ring;
+
+  &:hover {
+    background: var(--color-surface-high);
+  }
+}
+
+.dot {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--color-surface);
+  border-radius: var(--radius-full);
+  background: var(--color-error);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.user-name {
+  display: none;
+  @include mixins.type(label-lg);
+
+  @include mixins.bp(tablet) {
+    display: inline;
+  }
+}

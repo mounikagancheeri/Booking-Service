@@ -1,0 +1,109 @@
+<app-page-header
+  heading="Booking Status"
+  userName="Priya Reddy"
+  backLabel="Back to Home"
+  (back)="goHome()"
+/>
+
+<main class="page">
+  @if (booking(); as b) {
+    <section class="hero full" aria-labelledby="success-heading">
+      <span class="check" aria-hidden="true"
+        ><app-icon name="check_circle" [size]="44" filled
+      /></span>
+      <h2 id="success-heading">Booking Confirmed!</h2>
+      <p>
+        {{ provider()?.name }} has accepted your booking and will arrive at your scheduled time.
+      </p>
+      <app-badge variant="verified" icon="verified_user">Escrow guarantee protected</app-badge>
+    </section>
+
+    <div class="main">
+      <section class="ticket" aria-label="Booking details">
+        <div class="ticket-head">
+          <div>
+            <p class="label">Order ID</p>
+            <p class="order">
+              {{ b.id }}
+              <button type="button" class="copy" (click)="copyId()">
+                <app-icon [name]="copied() ? 'check' : 'content_copy'" [size]="16" />
+                {{ copied() ? 'Copied' : 'Copy' }}
+              </button>
+            </p>
+          </div>
+          <app-badge variant="verified">Confirmed</app-badge>
+        </div>
+
+        <dl class="facts">
+          @if (type(); as t) {
+            <div>
+              <dt><app-icon name="hvac" [size]="18" /> Service package</dt>
+              <dd>
+                {{ t.label }} <span class="muted">• {{ t.durationLabel }}</span>
+              </dd>
+            </div>
+          }
+          <div>
+            <dt><app-icon name="calendar_today" [size]="18" /> Scheduled for</dt>
+            <dd>{{ b.when }}</dd>
+          </div>
+          <div>
+            <dt><app-icon name="location_on" [size]="18" /> Service address</dt>
+            <dd>{{ contact().name }}, {{ contact().address }}</dd>
+          </div>
+        </dl>
+
+        <div class="total">
+          <div>
+            <p class="label">Total payable</p>
+            <p class="muted">Pay after completion • Cash / UPI / Card</p>
+          </div>
+          <strong>{{ b.total | currency: 'INR' : 'symbol' : '1.0-0' }}</strong>
+        </div>
+      </section>
+
+      <section class="roadmap" aria-labelledby="roadmap-heading">
+        <h3 id="roadmap-heading">Service Roadmap</h3>
+        <app-service-roadmap [steps]="roadmap()" />
+      </section>
+    </div>
+
+    <aside class="aside" aria-label="Your professional">
+      @if (provider(); as p) {
+        <section class="pro" aria-labelledby="pro-heading">
+          <p class="label">Assigned professional</p>
+          <div class="pro-row">
+            <app-avatar
+              shape="rounded"
+              [name]="p.name"
+              [src]="p.avatarUrl"
+              [size]="56"
+              [verified]="p.verified"
+            />
+            <div class="grow">
+              <h3 id="pro-heading">{{ p.name }}</h3>
+              <p class="muted">{{ p.role ?? p.title }}</p>
+              <app-rating [value]="p.rating" [count]="p.reviewCount" />
+            </div>
+          </div>
+          <div class="contact">
+            <a appButton variant="secondary" size="sm" icon="call" href="tel:+919876543210">Call</a>
+            <a appButton variant="secondary" size="sm" icon="chat_bubble" href="sms:+919876543210">
+              Message
+            </a>
+          </div>
+          <p class="hint">
+            <app-icon name="info" [size]="16" /> {{ firstName() }} will call 30 minutes before
+            arriving.
+          </p>
+        </section>
+      }
+
+      <div class="actions">
+        <button appButton type="button" icon="home" fullWidth (click)="goHome()">
+          Back to Home
+        </button>
+      </div>
+    </aside>
+  }
+</main>

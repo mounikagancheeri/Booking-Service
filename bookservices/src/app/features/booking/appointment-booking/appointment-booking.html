@@ -1,0 +1,94 @@
+<app-page-header heading="Booking Flow" userName="Priya Reddy" (back)="goBack()" />
+
+<main class="page">
+  <app-booking-stepper class="full" [steps]="steps" [current]="1" />
+
+  @if (provider(); as p) {
+    <div class="main">
+      <app-booking-provider-summary [provider]="p" [type]="selectedType()" />
+
+      <section class="block" aria-labelledby="type-heading">
+        <app-section-header
+          headingId="type-heading"
+          eyebrow="Appointment type"
+          heading="What do you need?"
+        />
+        <app-appointment-type-picker [types]="types()" [(selectedId)]="selectedTypeId" />
+      </section>
+
+      <section class="block" aria-labelledby="date-heading">
+        <app-section-header
+          headingId="date-heading"
+          eyebrow="Select date"
+          actionIcon="calendar_month"
+          [heading]="selectedDay().monthYear"
+          [actionLabel]="showFullCalendar() ? 'Fewer dates' : 'Full calendar'"
+          [actionExpanded]="showFullCalendar()"
+          (action)="toggleFullCalendar()"
+        />
+        <app-date-strip
+          [days]="days()"
+          [expanded]="showFullCalendar()"
+          [(selected)]="selectedDate"
+        />
+      </section>
+
+      @if (!slotsLoading() && availableCount() > 0 && availableCount() <= 2) {
+        <app-callout variant="warning" icon="bolt" [heading]="demandHeading()">
+          Only {{ availableCount() }} arrival
+          {{ availableCount() === 1 ? 'window' : 'windows' }} remaining for {{ p.name }}
+        </app-callout>
+      }
+
+      <section class="block slots" aria-labelledby="time-heading">
+        <app-section-header
+          headingId="time-heading"
+          eyebrow="Select arrival time"
+          heading="Available time"
+          [subtitle]="slotsLoading() ? undefined : availableLabel()"
+        >
+          <span class="legend" aria-hidden="true">
+            <span class="legend-item legend-item--open">Open</span>
+            <span class="legend-item legend-item--booked">Booked</span>
+          </span>
+        </app-section-header>
+        @if (slotsLoading()) {
+          <p class="empty" role="status">Loading arrival windows…</p>
+        } @else if (availableCount() === 0) {
+          <div class="empty">
+            <p>No arrival windows left for {{ selectedDay().longLabel }}.</p>
+            @if (nextDay(); as next) {
+              <button type="button" class="next-day" (click)="selectedDate.set(next.iso)">
+                Try {{ next.longLabel }}
+              </button>
+            }
+          </div>
+        }
+        @for (period of periods(); track period.id) {
+          <app-slot-group [period]="period" name="arrival-slot" [(selectedId)]="selectedSlotId" />
+        }
+      </section>
+    </div>
+
+    <aside class="aside" aria-label="Booking summary">
+      <app-booking-summary-bar
+        [summary]="summary()"
+        [serviceLabel]="selectedType()?.label"
+        [price]="selectedType()?.price"
+        [held]="!!selectedSlot()"
+        [disabled]="!selectedSlot()"
+        (proceed)="proceed()"
+      />
+      <app-callout variant="info" icon="verified_user" heading="30-Day Workmanship Warranty">
+        Payment remains held in Escrow until you inspect and approve {{ firstName() }}'s completed
+        service. Free re-service guarantee.
+      </app-callout>
+    </aside>
+  } @else if (provider() === undefined) {
+    <p class="empty full" role="status">Loading professional…</p>
+  } @else {
+    <p class="empty full">
+      We couldn't find this professional. Please go back and pick another one.
+    </p>
+  }
+</main>

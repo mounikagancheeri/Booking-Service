@@ -1,0 +1,47 @@
+<label class="card" [class.checked]="checked()" [class.disabled]="disabled()">
+  <input
+    type="radio"
+    class="visually-hidden"
+    [name]="name()"
+    [value]="value()"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (change)="picked.emit(value())"
+  />
+  @if (popular()) {
+    <app-badge class="ribbon" variant="accent" icon="local_fire_department">Most Popular</app-badge>
+  }
+  <span class="top">
+    <span class="icon-wrap"><app-icon [name]="icon()" [size]="22" filled /></span>
+    <span class="head">
+      <span class="title">{{ heading() }}</span>
+      <span class="meta">
+        @if (duration(); as d) {
+          <span class="duration"><app-icon name="schedule" [size]="14" />{{ d }}</span>
+          <span aria-hidden="true">•</span>
+        }
+        <span class="price">
+          {{ priceFrom() ? 'From ' : '' }}{{ price() | currency: 'INR' : 'symbol' : '1.0-0' }}
+        </span>
+        @if (savings(); as s) {
+          <span class="save">Save {{ s | currency: 'INR' : 'symbol' : '1.0-0' }}</span>
+        }
+      </span>
+    </span>
+    <span class="radio" aria-hidden="true">
+      @if (checked()) {
+        <app-icon name="check" [size]="16" />
+      }
+    </span>
+  </span>
+  @if (description(); as text) {
+    <span class="description">{{ text }}</span>
+  }
+  @if (perks().length) {
+    <span class="perks">
+      @for (perk of perks(); track perk) {
+        <span class="perk"><app-icon name="check_circle" [size]="14" filled />{{ perk }}</span>
+      }
+    </span>
+  }
+</label>

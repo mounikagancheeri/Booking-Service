@@ -1,0 +1,152 @@
+<app-page-header heading="Service Detail" userName="Priya Reddy" (back)="goBack()" />
+
+<main class="page">
+  @if (provider(); as p) {
+    <div class="top-row full">
+      @if (category(); as c) {
+        <a class="back-link" routerLink="/providers" [queryParams]="{ categoryId: c.id }">
+          <app-icon name="arrow_back" [size]="18" />
+          Back to {{ c.label }}
+        </a>
+      }
+      <button
+        type="button"
+        class="save"
+        [attr.aria-pressed]="saved()"
+        [attr.aria-label]="'Save ' + p.name"
+        (click)="saved.set(!saved())"
+      >
+        <app-icon
+          [name]="saved() ? 'bookmark' : 'bookmark_border'"
+          [size]="22"
+          [filled]="saved()"
+        />
+      </button>
+    </div>
+
+    <div class="main">
+      <section class="profile" aria-labelledby="profile-name">
+        <app-avatar
+          shape="rounded"
+          [name]="p.name"
+          [src]="p.avatarUrl"
+          [size]="88"
+          [verified]="p.verified"
+        />
+        <div class="identity">
+          <h2 id="profile-name">{{ p.name }}</h2>
+          <p class="role">{{ p.role ?? p.title }} • {{ p.experienceYears }} Years Exp</p>
+          <p class="rating-row">
+            <app-rating [value]="p.rating" [count]="p.reviewCount" />
+            @if (p.area) {
+              <span><app-icon name="location_on" [size]="16" /> Hyderabad</span>
+            }
+          </p>
+          @if (p.serviceAreas) {
+            <p class="areas"><app-icon name="near_me" [size]="16" /> Serves {{ p.serviceAreas }}</p>
+          }
+        </div>
+      </section>
+
+      @if (p.trustBadges?.length) {
+        <app-trust-badges [badges]="p.trustBadges!" />
+      }
+
+      <section class="dispatch" aria-label="Availability">
+        <div>
+          <p class="from">
+            Starts from
+            <strong>{{ p.startingPrice | currency: 'INR' : 'symbol' : '1.0-0' }}</strong> / visit
+          </p>
+          @if (p.nextSlot) {
+            <p class="next"><app-icon name="schedule" [size]="16" /> Next: {{ p.nextSlot }}</p>
+          }
+        </div>
+        <button appButton type="button" variant="secondary" size="sm" (click)="checkAvailability()">
+          Check Availability
+        </button>
+      </section>
+
+      @if (p.bio) {
+        <section class="block" aria-labelledby="about-heading">
+          <app-section-header headingId="about-heading" [heading]="'About ' + firstName()">
+            <app-badge variant="primary">Master Tech</app-badge>
+          </app-section-header>
+          <p class="bio">{{ p.bio }}</p>
+          @if (p.skills?.length) {
+            <ul class="skills" aria-label="Skills">
+              @for (skill of p.skills; track skill) {
+                <li>{{ skill }}</li>
+              }
+            </ul>
+          }
+        </section>
+      }
+
+      <section class="block" aria-labelledby="services-heading">
+        <app-section-header
+          headingId="services-heading"
+          heading="Services & Pricing"
+          subtitle="Fixed pricing, genuine spares & post-service warranty"
+        />
+        <fieldset class="packages">
+          <legend class="visually-hidden">Choose a service package</legend>
+          @for (type of store.types(); track type.id) {
+            <app-service-package-card
+              name="profile-package"
+              [value]="type.id"
+              [heading]="type.label"
+              [icon]="type.icon"
+              [duration]="type.durationLabel"
+              [price]="type.price"
+              [priceFrom]="!!type.priceFrom"
+              [description]="type.description"
+              [popular]="!!type.popular"
+              [checked]="type.id === store.typeId()"
+              (picked)="store.typeId.set($event)"
+            />
+          } @empty {
+            <p class="no-services">
+              {{ store.typesLoading() ? 'Loading services…' : 'No services listed yet.' }}
+            </p>
+          }
+        </fieldset>
+      </section>
+
+      @if (p.reviews?.length) {
+        <section class="block" aria-labelledby="reviews-heading">
+          <app-section-header
+            headingId="reviews-heading"
+            heading="Customer Reviews"
+            subtitle="Verified completed bookings"
+          >
+            <app-badge>{{ p.reviewCount }} total</app-badge>
+          </app-section-header>
+          @for (review of p.reviews; track review.id) {
+            <app-review-card [review]="review" />
+          }
+        </section>
+      }
+    </div>
+
+    <aside class="aside" aria-label="Booking summary">
+      <app-booking-summary-bar
+        icon="shopping_bag"
+        placeholder="Choose a service"
+        actionLabel="Select Service & Book"
+        serviceLabel="Total"
+        [summary]="store.type()?.label ?? null"
+        [price]="store.type()?.price"
+        [disabled]="!store.type()"
+        (proceed)="checkAvailability()"
+      />
+      <app-callout icon="shield" heading="Escrow Guarantee Protected">
+        Payment is released to {{ firstName() }} only after you test and approve the work.
+      </app-callout>
+    </aside>
+  } @else if (provider() === undefined) {
+    <p class="empty full" role="status">Loading professional�</p>
+  } @else {
+    <p class="empty full">We couldn't find this professional. <a routerLink="/">Back to Home</a></p>
+  }
+</main>

@@ -1,0 +1,129 @@
+@let p = provider();
+@let featured = variant() === 'featured';
+
+@if (loading() || !p) {
+  <div class="card" [class.featured]="featured" role="status" aria-label="Loading provider">
+    <div class="main">
+      <app-avatar name="" loading shape="rounded" [size]="featured ? 64 : 48" />
+      <div class="info">
+        <span class="sk sk-title"></span>
+        <span class="sk sk-line"></span>
+        <span class="sk sk-line short"></span>
+      </div>
+    </div>
+    @if (featured) {
+      <span class="sk sk-block"></span>
+    }
+  </div>
+} @else {
+  <article
+    class="card"
+    [class.featured]="featured"
+    [class.selected]="selected()"
+    [class.disabled]="disabled()"
+    [attr.aria-labelledby]="headingId"
+  >
+    <div class="main">
+      <app-avatar
+        shape="rounded"
+        [name]="p.name"
+        [src]="p.avatarUrl"
+        [size]="featured ? 64 : 48"
+        [verified]="featured && p.verified"
+      />
+      <div class="info">
+        <div class="title-row">
+          <h3 [id]="headingId">{{ p.name }}</h3>
+          @if (!featured && p.verified) {
+            <app-icon class="verified" name="verified" [size]="14" filled label="Verified" />
+          }
+          @if (featured) {
+            <span class="price"
+              >From {{ p.startingPrice | currency: 'INR' : 'symbol' : '1.0-0' }}</span
+            >
+          }
+        </div>
+        <p class="meta">{{ p.title }} • {{ p.experienceYears }} yrs exp</p>
+        <div class="stats">
+          <app-rating [value]="p.rating" [count]="p.reviewCount" [compact]="!featured" />
+          @if (featured && p.area) {
+            <span class="sep" aria-hidden="true"></span>
+            <span
+              >{{ p.area }}
+              @if (p.distanceKm) {
+                ({{ p.distanceKm }} km)
+              }
+            </span>
+          }
+          @if (!featured && p.nextSlot) {
+            <span>• Next: {{ p.nextSlot }}</span>
+          }
+        </div>
+      </div>
+
+      @if (!featured) {
+        <div class="aside">
+          <span class="price"
+            >From {{ p.startingPrice | currency: 'INR' : 'symbol' : '1.0-0' }}</span
+          >
+          <button
+            appButton
+            type="button"
+            variant="secondary"
+            size="sm"
+            [disabled]="disabled()"
+            [attr.aria-label]="'Reserve ' + p.name"
+            (click)="book.emit(p.id)"
+          >
+            Reserve
+          </button>
+        </div>
+      }
+    </div>
+
+    @if (featured) {
+      <div class="trust">
+        @if (p.verified) {
+          <app-badge variant="verified" icon="verified_user"
+            >SkillConnect Shield Verified</app-badge
+          >
+        } @else {
+          <app-badge icon="pending">Verification pending</app-badge>
+        }
+        @if (p.nextSlot) {
+          <span class="slot"><app-icon name="schedule" [size]="16" />{{ p.nextSlot }}</span>
+        }
+      </div>
+      <div class="actions">
+        <button
+          appButton
+          type="button"
+          variant="secondary"
+          [disabled]="disabled()"
+          [attr.aria-describedby]="headingId"
+          (click)="viewProfile.emit(p.id)"
+        >
+          View profile
+        </button>
+        <button
+          appButton
+          type="button"
+          icon="arrow_forward"
+          iconPosition="end"
+          [disabled]="disabled()"
+          [attr.aria-describedby]="headingId"
+          (click)="book.emit(p.id)"
+        >
+          Book Service
+        </button>
+      </div>
+    }
+
+    @if (disabled()) {
+      <p class="unavailable">
+        <app-icon name="event_busy" [size]="16" />
+        Currently unavailable
+      </p>
+    }
+  </article>
+}

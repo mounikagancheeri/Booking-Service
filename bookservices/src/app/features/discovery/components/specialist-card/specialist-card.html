@@ -1,0 +1,105 @@
+@let p = provider();
+<article class="card" [class.selected]="selected()" [attr.aria-labelledby]="headingId">
+  @if (selected()) {
+    <p class="ribbon">
+      <span><app-icon name="task_alt" [size]="16" /> Selected specialist</span>
+      @if (fastest()) {
+        <span class="fast"><app-icon name="bolt" [size]="16" filled /> Fastest dispatch</span>
+      }
+    </p>
+  }
+
+  <div class="identity">
+    <app-avatar
+      shape="rounded"
+      [name]="p.name"
+      [src]="p.avatarUrl"
+      [size]="64"
+      [verified]="p.verified"
+    />
+    <div class="info">
+      <div class="name-row">
+        <h2 [id]="headingId">{{ p.name }}</h2>
+        <span class="price">
+          <span class="price-label">{{ selected() ? 'Starts at' : 'From' }}</span>
+          {{ p.startingPrice | currency: 'INR' : 'symbol' : '1.0-0' }}
+        </span>
+      </div>
+      <p class="role">
+        {{ p.role ?? p.title }}
+        @if (p.verified) {
+          <app-badge variant="primary">Pro ✓</app-badge>
+        }
+      </p>
+      <p class="stats">
+        <app-rating [value]="p.rating" [count]="p.reviewCount" />
+        <span>• {{ p.experienceYears }} yrs exp</span>
+        @if (p.area) {
+          <span>• {{ p.area }}</span>
+        }
+      </p>
+    </div>
+  </div>
+
+  @if (p.bio) {
+    <p class="bio">{{ p.bio }}</p>
+  }
+
+  @if (selected() && p.highlights?.length) {
+    <div class="packages">
+      <p class="packages-title">Pre-priced packages</p>
+      <ul>
+        @for (item of p.highlights; track item.label) {
+          <li>
+            <app-icon [name]="item.icon" [size]="18" />
+            <span class="package-label">{{ item.label }}</span>
+            <strong>{{ item.price | currency: 'INR' : 'symbol' : '1.0-0' }}</strong>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  @if (p.nextSlot) {
+    <p class="slot">
+      <app-icon name="schedule" [size]="16" />
+      {{ selected() ? 'Earliest arrival' : 'Next slot' }}: <strong>{{ p.nextSlot }}</strong>
+    </p>
+  }
+
+  <div class="actions">
+    @if (selected()) {
+      <button
+        appButton
+        type="button"
+        variant="secondary"
+        icon="visibility"
+        [attr.aria-describedby]="headingId"
+        (click)="viewProfile.emit(p.id)"
+      >
+        View Profile
+      </button>
+      <button
+        appButton
+        type="button"
+        icon="arrow_forward"
+        iconPosition="end"
+        [attr.aria-describedby]="headingId"
+        (click)="book.emit(p.id)"
+      >
+        Book Now
+      </button>
+    } @else {
+      <button
+        appButton
+        type="button"
+        variant="secondary"
+        fullWidth
+        [attr.aria-describedby]="headingId"
+        (click)="pick.emit(p.id)"
+      >
+        Select Specialist
+      </button>
+    }
+  </div>
+</article>

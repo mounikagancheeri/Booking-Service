@@ -1,0 +1,191 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  max-width: 640px;
+  margin-inline: auto;
+  background: var(--color-surface-lowest);
+}
+
+.map {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.map-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pin {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px 20px 20px 4px;
+  background: var(--color-primary-container);
+  box-shadow:
+    var(--shadow-primary),
+    0 0 0 40px rgb(79 70 229 / 12%);
+  transform: translate(-50%, -50%) rotate(-45deg);
+
+  span {
+    width: 14px;
+    height: 14px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-lowest);
+  }
+}
+
+.map-top {
+  position: absolute;
+  top: var(--space-lg);
+  inset-inline: 1.25rem;
+  display: flex;
+  gap: 0.625rem;
+}
+
+.back {
+  @include mixins.round-button(44px);
+}
+
+.search {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.625rem;
+  height: 44px;
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-lowest);
+  box-shadow: var(--shadow-2);
+  color: var(--color-outline);
+
+  &:focus-within {
+    box-shadow: var(--focus-ring);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    @include mixins.type(body-sm);
+    color: var(--color-on-surface);
+    outline: none;
+  }
+}
+
+.locate {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 2.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 44px;
+  padding: 0 0.875rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--color-surface-lowest);
+  box-shadow: var(--shadow-2);
+  color: var(--color-primary);
+  @include mixins.type(label-md);
+  font-weight: 600;
+  cursor: pointer;
+  @include mixins.focus-ring;
+}
+
+.sheet {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: -1.5rem;
+  padding: 1.25rem 1.25rem calc(var(--space-xl) + env(safe-area-inset-bottom, 0));
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: var(--color-surface-lowest);
+  box-shadow: 0 -6px 24px rgb(17 24 39 / 8%);
+}
+
+.intro {
+  @include mixins.onboarding-intro;
+
+  h1 {
+    font-size: 1.5rem;
+    line-height: 1.875rem;
+  }
+}
+
+.error {
+  @include mixins.type(label-md);
+  color: var(--color-error);
+}
+
+.current,
+.address {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: 1rem;
+}
+
+.current {
+  border: 2px solid var(--color-primary-container);
+}
+
+.icon-chip {
+  --chip-radius: 0.75rem;
+}
+
+.saved {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    margin-bottom: 0.625rem;
+    padding: 0;
+    @include mixins.group-heading;
+  }
+}
+
+.address {
+  @include mixins.card(1rem);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+
+  &:has(input:focus-visible) {
+    box-shadow: var(--focus-ring);
+  }
+
+  &.selected {
+    border-color: var(--color-primary-container);
+  }
+
+  .address-icon {
+    background: var(--color-surface-low);
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.chevron {
+  color: var(--color-outline-variant);
+}
+
+.confirm {
+  margin-top: auto;
+}

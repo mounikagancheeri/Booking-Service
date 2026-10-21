@@ -1,0 +1,32 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+.list {
+  display: grid;
+  // minmax(0, …) lets long names truncate instead of widening the page.
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.bp(tablet) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-md);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  @include mixins.type(body-sm);
+}

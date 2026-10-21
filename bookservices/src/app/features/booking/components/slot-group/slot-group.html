@@ -1,0 +1,37 @@
+@let p = period();
+<fieldset>
+  <legend>
+    <span class="heading">
+      <app-icon class="period-icon" [name]="p.icon" [size]="18" />
+      <span class="label">{{ p.label }}</span>
+      <app-badge class="range">{{ p.range }}</app-badge>
+    </span>
+  </legend>
+  <div class="grid">
+    @for (slot of p.slots; track slot.id) {
+      @let checked = slot.id === selectedId();
+      <label
+        class="slot"
+        [class.selected]="checked"
+        [class.unavailable]="slot.status !== 'available'"
+      >
+        <input
+          type="radio"
+          class="visually-hidden"
+          [name]="name()"
+          [value]="slot.id"
+          [checked]="checked"
+          [disabled]="slot.status !== 'available'"
+          (change)="selectedId.set(slot.id)"
+        />
+        <span class="time">
+          @if (checked) {
+            <app-icon class="check" name="check_circle" [size]="15" filled />
+          }
+          {{ slot.time }}
+        </span>
+        <span class="visually-hidden">{{ checked ? 'Selected' : statusLabel[slot.status] }}</span>
+      </label>
+    }
+  </div>
+</fieldset>

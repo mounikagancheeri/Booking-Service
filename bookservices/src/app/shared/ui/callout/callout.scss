@@ -1,0 +1,59 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+}
+
+:host(.callout--info) {
+  background: var(--color-surface-low);
+  color: var(--color-on-surface);
+}
+
+:host(.callout--warning) {
+  align-items: center;
+  background: var(--color-secondary-fixed);
+  color: var(--color-on-secondary-fixed);
+}
+
+.tile {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+
+  :host(.callout--info) & {
+    background: var(--color-tertiary-container);
+    color: var(--color-tertiary-fixed);
+  }
+
+  :host(.callout--warning) & {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+}
+
+.body {
+  min-width: 0;
+}
+
+.title {
+  @include mixins.type(label-lg);
+  font-weight: 700;
+}
+
+.text {
+  margin-top: 0.125rem;
+  @include mixins.type(body-sm);
+  color: var(--color-on-surface-variant);
+
+  :host(.callout--warning) & {
+    color: var(--color-on-secondary-fixed-variant);
+  }
+}

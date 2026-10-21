@@ -1,0 +1,53 @@
+@use '../../../../styles/mixins';
+
+:host {
+  --avatar-size: 48px;
+  --avatar-radius: var(--radius-full);
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+}
+
+:host(.rounded) {
+  --avatar-radius: var(--radius-md);
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--avatar-radius);
+  object-fit: cover;
+  box-shadow: var(--shadow-1);
+}
+
+.initials {
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: calc(var(--avatar-size) * 0.36);
+}
+
+.skeleton {
+  @include mixins.skeleton;
+  border-radius: var(--avatar-radius);
+}
+
+.verified {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-surface-lowest);
+  border-radius: var(--radius-full);
+  background: var(--color-tertiary-fixed);
+  color: var(--color-tertiary);
+}

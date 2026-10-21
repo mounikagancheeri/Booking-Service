@@ -1,0 +1,151 @@
+@use '../../../styles/mixins';
+
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: var(--content-max);
+  margin-inline: auto;
+  // Room for the fixed bottom navigation.
+  padding: var(--space-md) var(--page-margin) calc(6rem + env(safe-area-inset-bottom, 0));
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.hub {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  @include mixins.type(label-md);
+  color: var(--color-on-surface-variant);
+}
+
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-verified);
+}
+
+h1 {
+  @include mixins.type(headline-lg);
+}
+
+.lead {
+  @include mixins.type(body-md);
+  color: var(--color-on-surface-variant);
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.fast-track {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.fast-label {
+  @include mixins.type(label-caps);
+  color: var(--color-secondary);
+}
+
+.message {
+  @include mixins.type(body-sm);
+  color: var(--color-error);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.protocol {
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+
+  ul {
+    display: grid;
+    gap: var(--space-md);
+    margin: var(--space-md) 0 0;
+    padding: 0;
+    list-style: none;
+
+    @include mixins.bp(tablet) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  li {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  strong {
+    display: block;
+    @include mixins.type(label-lg);
+  }
+}
+
+.protocol-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+
+  h2 {
+    flex: 1 1 12rem;
+    @include mixins.type(headline-sm);
+  }
+}
+
+.point-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 12%);
+}
+
+.point-text {
+  @include mixins.type(body-sm);
+  color: var(--color-primary-fixed);
+}
+
+.support {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-lowest);
+  color: var(--color-primary);
+
+  p {
+    flex: 1;
+    @include mixins.type(label-lg);
+    color: var(--color-on-surface);
+  }
+}

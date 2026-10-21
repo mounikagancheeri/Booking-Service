@@ -1,0 +1,92 @@
+<div class="map">
+  <svg
+    class="map-art"
+    viewBox="0 0 390 400"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <rect width="390" height="400" fill="#f1f3f7" />
+    <path d="M250 40c40-10 90 10 110 40s-10 70-50 70-80-20-90-50 0-55 30-60z" fill="#dbeafe" />
+    <rect x="24" y="230" width="120" height="80" rx="14" fill="#d1fae5" />
+    <path d="M-10 120 L400 180" fill="none" stroke="#fff" stroke-width="18" />
+    <path d="M120 -10 L170 410" fill="none" stroke="#fff" stroke-width="12" />
+    <path d="M-10 330 C120 300 260 360 400 300" fill="none" stroke="#fff" stroke-width="12" />
+    <path d="M300 -10 L260 410" fill="none" stroke="#fff" stroke-width="10" />
+    <path d="M-10 120 L400 180" stroke="#fde68a" stroke-width="4" />
+    <rect x="190" y="200" width="54" height="40" rx="6" fill="#e5e7eb" />
+    <rect x="30" y="140" width="70" height="60" rx="6" fill="#e5e7eb" />
+    <rect x="320" y="210" width="60" height="70" rx="6" fill="#e5e7eb" />
+  </svg>
+  <span class="pin" aria-hidden="true"><span></span></span>
+
+  <div class="map-top">
+    <button type="button" class="back" aria-label="Go back" (click)="goBack()">
+      <app-icon name="chevron_left" [size]="24" />
+    </button>
+    <label class="search">
+      <app-icon name="search" [size]="18" />
+      <span class="visually-hidden">Search saved addresses</span>
+      <input
+        type="search"
+        placeholder="Search area, street or apartment"
+        [value]="query()"
+        (input)="query.set($any($event.target).value)"
+      />
+    </label>
+  </div>
+
+  <button type="button" class="locate" [disabled]="locating()" (click)="useCurrentLocation()">
+    <app-icon name="my_location" [size]="16" />
+    {{ locating() ? 'Locating…' : 'Use current location' }}
+  </button>
+</div>
+
+<main class="sheet">
+  <app-onboarding-steps [current]="3" />
+  <div class="intro">
+    <h1>Set your location</h1>
+    <p>So we can show professionals who serve your area.</p>
+  </div>
+
+  @if (locateError(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  @if (session.address(); as current) {
+    <div class="current" aria-live="polite">
+      <span class="icon-chip current-icon"><app-icon name="location_on" [size]="20" /></span>
+      <span class="text-stack">
+        <strong>{{ current.line }}</strong>
+        <span>{{ current.area }}</span>
+      </span>
+      <app-badge variant="verified">We serve here</app-badge>
+    </div>
+  }
+
+  <fieldset class="saved">
+    <legend>Saved addresses</legend>
+    @for (address of matches(); track address.id) {
+      <label class="address" [class.selected]="address.id === session.addressId()">
+        <input
+          type="radio"
+          name="address"
+          class="visually-hidden"
+          [checked]="address.id === session.addressId()"
+          (change)="session.addressId.set(address.id)"
+        />
+        <span class="icon-chip address-icon"><app-icon [name]="address.icon" [size]="18" /></span>
+        <span class="text-stack">
+          <strong>{{ address.label }}</strong>
+          <span>{{ address.line }}</span>
+        </span>
+        <app-icon class="chevron" name="chevron_right" [size]="18" />
+      </label>
+    } @empty {
+      <p class="empty-state">No saved address matches “{{ query() }}”.</p>
+    }
+  </fieldset>
+
+  <button appButton type="button" fullWidth class="confirm" (click)="confirm()">
+    Confirm location
+  </button>
+</main>

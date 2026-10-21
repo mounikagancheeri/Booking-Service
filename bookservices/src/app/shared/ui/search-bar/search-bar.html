@@ -1,0 +1,32 @@
+<form
+  class="field"
+  role="search"
+  [class.disabled]="disabled()"
+  [attr.aria-busy]="loading() || null"
+  (submit)="onSubmit($event)"
+>
+  <label class="visually-hidden" [for]="inputId">{{ label() }}</label>
+  @if (loading()) {
+    <span class="spinner" aria-hidden="true"></span>
+  } @else {
+    <app-icon class="lead" name="search" />
+  }
+  <input
+    type="search"
+    enterkeyhint="search"
+    autocomplete="off"
+    [id]="inputId"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    [disabled]="disabled()"
+    (input)="onInput($event)"
+  />
+  <button type="button" class="filters" [disabled]="disabled()" (click)="openFilters.emit()">
+    <app-icon name="tune" [size]="16" />
+    <span class="filters-text">Filters</span>
+    @if (filterCount() > 0) {
+      <span class="count" aria-hidden="true">{{ filterCount() }}</span>
+      <span class="visually-hidden">({{ filterCount() }} active)</span>
+    }
+  </button>
+</form>

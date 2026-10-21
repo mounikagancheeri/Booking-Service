@@ -1,0 +1,90 @@
+@use '../../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  position: relative;
+  display: flex;
+  gap: 0.875rem;
+  padding-bottom: 1.25rem;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  // Connector line between markers.
+  &:not(:last-child)::before {
+    position: absolute;
+    top: 30px;
+    bottom: 2px;
+    left: 13px;
+    width: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+    content: '';
+  }
+
+  &.done:not(:last-child)::before {
+    background: var(--color-verified);
+  }
+}
+
+.marker {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-lowest);
+  color: var(--color-on-surface-variant);
+  @include mixins.type(label-md);
+  font-weight: 700;
+
+  .done & {
+    border-color: var(--color-verified);
+    background: var(--color-verified);
+    color: var(--color-on-primary);
+  }
+
+  .current & {
+    border-color: var(--color-primary-container);
+    color: var(--color-primary-container);
+  }
+}
+
+.body {
+  min-width: 0;
+  padding-top: 0.25rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  @include mixins.type(label-lg);
+}
+
+.done-label {
+  @include mixins.type(label-sm);
+  color: var(--color-verified);
+}
+
+.meta {
+  @include mixins.type(label-md);
+  color: var(--color-primary);
+}
+
+.detail {
+  @include mixins.type(body-sm);
+  color: var(--color-on-surface-variant);
+}

@@ -1,0 +1,124 @@
+<app-page-header heading="Booking Flow" userName="Priya Reddy" (back)="goBack()" />
+
+<main class="page">
+  <app-booking-stepper class="full" [steps]="steps" [current]="3" />
+
+  <header class="intro full">
+    <h2>Review Your Booking</h2>
+    <p>Check your appointment details before paying.</p>
+  </header>
+
+  <div class="main">
+    @if (store.provider(); as p) {
+      <app-review-section heading="Professional">
+        <div class="pro">
+          <app-avatar
+            shape="rounded"
+            [name]="p.name"
+            [src]="p.avatarUrl"
+            [size]="56"
+            [verified]="p.verified"
+          />
+          <div>
+            <p class="name">
+              {{ p.name }}
+              @if (p.verified) {
+                <app-badge variant="verified" icon="verified">Verified Pro</app-badge>
+              }
+            </p>
+            <p class="muted">{{ p.role ?? p.title }} • Hyderabad</p>
+            <app-rating [value]="p.rating" [count]="p.reviewCount" />
+          </div>
+        </div>
+        <p class="muted with-icon">
+          <app-icon name="security" [size]="16" /> Police verified • {{ p.experienceYears }}+ yrs
+          experience
+        </p>
+      </app-review-section>
+    }
+
+    @if (store.type(); as t) {
+      <app-review-section heading="Service & Schedule" [editLink]="['/book', providerId()]">
+        <div class="service">
+          <span class="service-icon"><app-icon [name]="t.icon" [size]="22" filled /></span>
+          <div class="grow">
+            <p class="name">{{ t.label }}</p>
+            @if (t.description) {
+              <p class="muted">{{ t.description }}</p>
+            }
+          </div>
+          <strong class="price">{{ t.price | currency: 'INR' : 'symbol' : '1.0-0' }}</strong>
+        </div>
+        <dl class="facts">
+          <div>
+            <dt><app-icon name="schedule" [size]="16" /> Duration</dt>
+            <dd>{{ t.durationLabel }}</dd>
+          </div>
+          <div>
+            <dt><app-icon name="calendar_today" [size]="16" /> Selected slot</dt>
+            <dd>{{ store.summary() }}</dd>
+          </div>
+        </dl>
+      </app-review-section>
+    }
+
+    <app-review-section heading="Service Location & Contact">
+      @let c = store.contact();
+      <p class="with-icon top">
+        <app-icon name="location_on" [size]="18" />
+        <span>
+          <strong class="contact-name">{{ c.name }}</strong> • {{ c.phone }}<br />
+          <span class="muted">{{ c.address }}</span>
+        </span>
+      </p>
+      <div class="notes">
+        <p class="notes-title"><app-icon name="description" [size]="16" /> Reported issue notes</p>
+        <p>“{{ store.notes() }}”</p>
+      </div>
+    </app-review-section>
+  </div>
+
+  <aside class="aside" aria-label="Payment and confirmation">
+    <app-review-section heading="Payment Breakdown">
+      <app-price-breakdown
+        [lines]="priceLines()"
+        [total]="store.total()"
+        totalNote="Upon job satisfaction"
+      />
+    </app-review-section>
+
+    <app-callout icon="payments" heading="Pay after service completion">
+      No advance payment needed. Pay the technician via Cash, UPI or Card once you're satisfied.
+    </app-callout>
+
+    <app-callout icon="verified_user" heading="SkillConnect Guarantee">
+      Background-verified technician, transparent pricing with no hidden charges, and a 30-day
+      service warranty.
+    </app-callout>
+
+    <div class="actions">
+      <button
+        appButton
+        type="button"
+        icon="arrow_forward"
+        iconPosition="end"
+        fullWidth
+        (click)="continueToPayment()"
+      >
+        Continue to payment ({{ store.total() | currency: 'INR' : 'symbol' : '1.0-0' }})
+      </button>
+      <a
+        appButton
+        variant="secondary"
+        icon="arrow_back"
+        fullWidth
+        [routerLink]="['/book', providerId()]"
+      >
+        Back to Edit Details
+      </a>
+      <p class="secure">
+        <app-icon name="lock" [size]="14" /> 100% encrypted • No advance debit required
+      </p>
+    </div>
+  </aside>
+</main>

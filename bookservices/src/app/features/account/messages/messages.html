@@ -1,0 +1,54 @@
+<main class="page">
+  <header class="title">
+    <h1>Messages</h1>
+  </header>
+
+  <label class="search">
+    <app-icon name="search" [size]="20" />
+    <span class="visually-hidden">Search messages</span>
+    <input
+      type="search"
+      placeholder="Search chats…"
+      [value]="query()"
+      (input)="query.set($any($event.target).value)"
+    />
+  </label>
+
+  <ul class="threads">
+    @for (thread of conversations(); track thread.id) {
+      <li class="thread" [class.unread]="thread.unread > 0">
+        <span class="avatar">
+          @if (thread.icon; as icon) {
+            <span class="avatar-icon"><app-icon [name]="icon" [size]="24" /></span>
+          } @else {
+            <app-avatar [name]="thread.name" [size]="52" />
+          }
+          @if (thread.online) {
+            <span class="online"><span class="visually-hidden">Online</span></span>
+          }
+        </span>
+        <span class="body">
+          <span class="head">
+            <strong>{{ thread.name }}</strong>
+            <span class="time">{{ thread.time }}</span>
+          </span>
+          @if (thread.context) {
+            <span class="context">{{ thread.context }}</span>
+          }
+          <span class="preview-row">
+            <span class="preview">{{ thread.preview }}</span>
+            @if (thread.unread) {
+              <span class="count">
+                {{ thread.unread }}<span class="visually-hidden"> unread</span>
+              </span>
+            }
+          </span>
+        </span>
+      </li>
+    } @empty {
+      <li class="empty-state">No chats match “{{ query() }}”.</li>
+    }
+  </ul>
+</main>
+
+<app-bottom-nav [items]="navItems" activeId="messages" />

@@ -1,0 +1,90 @@
+<app-header location="Hyderabad • Banjara Hills" userName="Priya Reddy" [unreadCount]="2" />
+
+<main class="page">
+  <section class="welcome">
+    <p class="hub">
+      <span class="live" aria-hidden="true"></span>
+      Banjara Hills Service Hub
+      <app-badge variant="verified">18 Pros Active</app-badge>
+    </p>
+    <h1>Hello, Priya <span aria-hidden="true">👋</span></h1>
+    <p class="lead">Find vetted, insured specialists across Hyderabad</p>
+  </section>
+
+  <section class="search" aria-label="Search services">
+    <app-search-bar [(value)]="searchTerm" (search)="search($event)" />
+    <p class="fast-track">
+      <span class="fast-label">Fast track</span>
+      <app-badge icon="bolt">Same-day slots available</app-badge>
+    </p>
+    <p class="message" role="status">{{ searchMessage() }}</p>
+  </section>
+
+  <section class="block" aria-labelledby="sectors-heading">
+    <app-section-header
+      headingId="sectors-heading"
+      heading="Service Sectors"
+      [actionLabel]="'Browse All (' + categories().length + ')'"
+      (action)="openCategory('1')"
+    />
+    <app-category-grid
+      [categories]="categories()"
+      [(selectedId)]="selectedCategory"
+      (selectedIdChange)="openCategory($event)"
+    />
+  </section>
+
+  <section class="block" aria-labelledby="spotlight-heading">
+    <app-section-header
+      headingId="spotlight-heading"
+      heading="Spotlight Specialist"
+      subtitle="Rigorous 6-step background verification cleared"
+    >
+      <app-badge variant="primary">Top Rated</app-badge>
+    </app-section-header>
+    <app-provider-card
+      variant="featured"
+      [provider]="spotlight()"
+      (book)="book($event)"
+      (viewProfile)="viewProfile($event)"
+    />
+  </section>
+
+  <section class="block" aria-labelledby="nearby-heading">
+    <app-section-header headingId="nearby-heading" heading="Available in Banjara Hills">
+      <app-badge variant="verified">Instant Confirmation</app-badge>
+    </app-section-header>
+    <app-provider-list
+      [providers]="nearby"
+      (book)="book($event)"
+      (viewProfile)="viewProfile($event)"
+    />
+  </section>
+
+  <section class="protocol" aria-labelledby="protocol-heading">
+    <div class="protocol-head">
+      <app-icon name="security" [size]="22" filled />
+      <h2 id="protocol-heading">The SkillConnect Protocol</h2>
+      <app-badge>ISO 9001 Standard</app-badge>
+    </div>
+    <ul>
+      @for (point of protocol; track point.title) {
+        <li>
+          <span class="point-icon"><app-icon [name]="point.icon" [size]="20" /></span>
+          <span>
+            <strong>{{ point.title }}</strong>
+            <span class="point-text">{{ point.text }}</span>
+          </span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="support" aria-label="Concierge support">
+    <app-icon name="support_agent" [size]="22" />
+    <p>Need a dedicated service manager?</p>
+    <a appButton variant="secondary" size="sm" href="tel:+914012345678">Instant Call</a>
+  </section>
+</main>
+
+<app-bottom-nav [items]="navItems" activeId="home" />

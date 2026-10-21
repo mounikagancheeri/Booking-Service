@@ -1,0 +1,59 @@
+<main class="page">
+  <header class="top">
+    <button type="button" class="back" aria-label="Go back" (click)="goBack()">
+      <app-icon name="chevron_left" [size]="24" />
+    </button>
+    <app-onboarding-steps [current]="2" />
+    <span class="spacer"></span>
+  </header>
+
+  <section class="intro">
+    <h1>Verify your number</h1>
+    <p>
+      Enter the 6-digit code sent to <strong>{{ session.formattedPhone() }}</strong>
+      <a routerLink="/login">Edit</a>
+    </p>
+  </section>
+
+  <form class="form" novalidate (submit)="verify($event)">
+    <fieldset>
+      <legend class="visually-hidden">One-time password, 6 digits</legend>
+      <div class="boxes">
+        @for (digit of digits(); track $index; let i = $index) {
+          <input
+            #box
+            type="text"
+            inputmode="numeric"
+            [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'"
+            maxlength="6"
+            [attr.aria-label]="'Digit ' + (i + 1)"
+            [attr.aria-invalid]="error()"
+            [class.filled]="digit"
+            [value]="digit"
+            (input)="onInput(i, $any($event.target))"
+            (keydown)="onKeydown(i, $event)"
+            (paste)="onPaste(i, $event)"
+          />
+        }
+      </div>
+    </fieldset>
+    @if (error()) {
+      <p class="error" role="alert">That code didn’t work. Check it and try again.</p>
+    }
+
+    <div class="resend">
+      @if (secondsLeft() > 0) {
+        <span class="timer">
+          <app-icon name="schedule" [size]="16" />
+          Resend code in <strong>{{ countdown() }}</strong>
+        </span>
+      } @else {
+        <button type="button" class="link" (click)="resend()">Resend code</button>
+      }
+    </div>
+
+    <button appButton type="submit" fullWidth [disabled]="!complete()">
+      Verify &amp; continue
+    </button>
+  </form>
+</main>

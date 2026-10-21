@@ -1,0 +1,100 @@
+@use 'styles/tokens';
+@use 'styles/mixins';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--page-background);
+  color: var(--color-on-surface);
+  @include mixins.type(body-md);
+  // Inter's single-storey "a" and open digits read better at small sizes.
+  font-feature-settings: 'cv11', 'ss01';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+.visually-hidden {
+  @include mixins.visually-hidden;
+}
+
+// Used by the skeleton mixin; keyframes must be global to be shared across components.
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Shared patterns from the BookIt design, kept global so component styles stay within budget.
+
+/// Round tinted icon holder. Size with `--chip-size`, shape with `--chip-radius`.
+.icon-chip {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--chip-size, 40px);
+  height: var(--chip-size, 40px);
+  border-radius: var(--chip-radius, var(--radius-full));
+  background: var(--color-accent-bg);
+  color: var(--color-primary-container);
+}
+
+/// Bold title over a grey subtitle line, filling the remaining row width.
+.text-stack {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+  @include mixins.type(label-lg);
+
+  > span {
+    @include mixins.type(label-md);
+    font-weight: 400;
+    color: var(--color-outline);
+  }
+}
+
+.empty-state {
+  padding: var(--space-lg) var(--space-md);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  @include mixins.type(body-sm);
+
+  a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+}

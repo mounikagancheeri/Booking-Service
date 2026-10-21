@@ -1,0 +1,33 @@
+<div class="inner">
+  <div class="info">
+    <div class="text">
+      <p class="when" aria-live="polite">
+        <app-icon class="when-icon" [name]="icon()" [size]="16" />
+        <span class="when-text">{{ summary() || placeholder() }}</span>
+      </p>
+      @if (serviceLabel(); as label) {
+        <p class="what">
+          {{ label }}
+          @if (price() !== undefined) {
+            • <strong>{{ price() | currency: 'INR' : 'symbol' : '1.0-0' }}</strong>
+          }
+        </p>
+      }
+    </div>
+    @if (held()) {
+      <app-badge variant="verified">Slot Held (10m)</app-badge>
+    }
+  </div>
+  <button
+    appButton
+    type="button"
+    icon="arrow_forward"
+    iconPosition="end"
+    fullWidth
+    [disabled]="disabled()"
+    [loading]="loading()"
+    (click)="proceed.emit()"
+  >
+    {{ actionLabel() }}
+  </button>
+</div>

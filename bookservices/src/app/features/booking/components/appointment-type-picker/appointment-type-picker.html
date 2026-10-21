@@ -1,0 +1,35 @@
+<fieldset>
+  <legend class="visually-hidden">{{ label() }}</legend>
+  <div class="row">
+    @for (type of types(); track type.id) {
+      @let checked = type.id === selectedId();
+      <label class="option" [class.selected]="checked">
+        <input
+          type="radio"
+          class="visually-hidden"
+          [name]="name"
+          [value]="type.id"
+          [checked]="checked"
+          (change)="selectedId.set(type.id)"
+        />
+        <span class="top">
+          <span class="icon-wrap"><app-icon [name]="type.icon" [size]="20" filled /></span>
+          @if (checked) {
+            <app-icon class="check" name="check_circle" [size]="18" filled />
+          }
+        </span>
+        <span class="title">{{ type.label }}</span>
+        <span class="meta">
+          {{ type.durationLabel }} • {{ type.price | currency: 'INR' : 'symbol' : '1.0-0' }}
+        </span>
+        @if (type.popular) {
+          <app-badge class="popular" variant="accent" icon="local_fire_department">
+            Most Popular
+          </app-badge>
+        }
+      </label>
+    } @empty {
+      <p class="empty">This professional has no bookable services right now.</p>
+    }
+  </div>
+</fieldset>

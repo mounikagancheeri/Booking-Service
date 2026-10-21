@@ -1,0 +1,10 @@
+@if (count() > 0) {
+  <app-icon class="star" name="star" [size]="15" filled />
+  <span class="value">{{ value() }}</span>
+  @if (showCount()) {
+    <span class="count">({{ count() }}{{ compact() ? '' : ' reviews' }})</span>
+  }
+} @else {
+  <app-icon class="star" name="star" [size]="15" />
+  <span class="count">New</span>
+}

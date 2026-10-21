@@ -1,0 +1,64 @@
+<app-page-header heading="Booking Flow" userName="Priya Reddy" (back)="goBack()" />
+
+<main class="page">
+  <app-booking-stepper class="full" [steps]="steps" [current]="0" />
+
+  @if (store.provider(); as p) {
+    <div class="main">
+      <app-booking-provider-summary [provider]="p" />
+
+      <section class="block" aria-labelledby="service-heading">
+        <app-section-header
+          headingId="service-heading"
+          eyebrow="Step 1 of 4 • Service selection"
+          heading="What service do you need?"
+          [subtitle]="'Choose a verified package provided by ' + p.name"
+        />
+        <fieldset class="packages">
+          <legend class="visually-hidden">Service package</legend>
+          @for (type of store.types(); track type.id) {
+            <app-service-package-card
+              name="booking-package"
+              [value]="type.id"
+              [heading]="type.label"
+              [icon]="type.icon"
+              [duration]="type.durationLabel"
+              [price]="type.price"
+              [priceFrom]="!!type.priceFrom"
+              [description]="type.description"
+              [perks]="type.perks ?? []"
+              [savings]="type.savings"
+              [popular]="!!type.popular"
+              [checked]="type.id === store.typeId()"
+              (picked)="store.typeId.set($event)"
+            />
+          } @empty {
+            <p class="no-services">
+              {{ store.typesLoading() ? 'Loading services…' : 'No services listed yet.' }}
+            </p>
+          }
+        </fieldset>
+      </section>
+    </div>
+
+    <aside class="aside" aria-label="Booking summary">
+      <app-booking-summary-bar
+        icon="shopping_bag"
+        placeholder="Choose a package"
+        serviceLabel="Estimated total"
+        actionLabel="Continue to Date & Time"
+        [summary]="store.type()?.label ?? null"
+        [price]="store.type()?.price"
+        [disabled]="!store.type()"
+        (proceed)="proceed()"
+      />
+      <app-callout icon="verified" heading="Escrow Guarantee & Protection">
+        Payment is released to {{ firstName() }} only after your final service sign-off.
+      </app-callout>
+    </aside>
+  } @else if (store.provider() === undefined) {
+    <p class="empty full" role="status">Loading professional…</p>
+  } @else {
+    <p class="empty full">We couldn't find this professional. <a routerLink="/">Back to Home</a></p>
+  }
+</main>

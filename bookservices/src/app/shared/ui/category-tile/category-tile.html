@@ -1,0 +1,35 @@
+@if (loading()) {
+  <div class="tile" aria-hidden="true">
+    <span class="icon-wrap skeleton"></span>
+    <span class="line skeleton"></span>
+    <span class="line short skeleton"></span>
+  </div>
+} @else {
+  <button
+    type="button"
+    class="tile"
+    [class.selected]="selected()"
+    [attr.aria-pressed]="selected()"
+    [disabled]="disabled()"
+    (click)="picked.emit()"
+  >
+    <span class="top">
+      <span class="icon-wrap">
+        <app-icon [name]="icon()" [size]="20" filled />
+      </span>
+      @if (selected()) {
+        <span class="dot" aria-hidden="true"></span>
+      }
+    </span>
+    <span class="label">{{ label() }}</span>
+    <span class="caption">
+      @if (selected()) {
+        Selected
+      } @else if (disabled()) {
+        Coming soon
+      } @else {
+        {{ caption() }}
+      }
+    </span>
+  </button>
+}

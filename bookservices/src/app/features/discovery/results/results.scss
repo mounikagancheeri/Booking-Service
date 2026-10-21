@@ -1,0 +1,122 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.page {
+  @include mixins.flow-page($bottom-bar: false);
+  row-gap: var(--space-md);
+  // Room for the fixed bottom navigation.
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0));
+
+  @include mixins.bp(desktop) {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0));
+  }
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  @include mixins.type(label-md);
+  color: var(--color-on-surface-variant);
+
+  a {
+    color: var(--color-primary-container);
+    text-decoration: none;
+    @include mixins.focus-ring;
+  }
+}
+
+.intro {
+  h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    @include mixins.type(headline-lg);
+  }
+
+  p {
+    margin-top: var(--space-xs);
+    @include mixins.type(body-sm);
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.filters {
+  display: flex;
+  gap: var(--space-sm);
+  margin-inline: calc(var(--page-margin) * -1);
+  padding: var(--space-xs) var(--page-margin);
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  @include mixins.bp(tablet) {
+    flex-wrap: wrap;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+.escrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-low);
+  color: var(--color-verified);
+  @include mixins.type(body-sm);
+  flex-wrap: wrap;
+
+  span {
+    flex: 1 1 12rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  strong {
+    color: var(--color-on-surface);
+  }
+}
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-md);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  @include mixins.type(body-sm);
+}
+
+.coverage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-lowest);
+  color: var(--color-primary);
+  @include mixins.type(body-sm);
+
+  p {
+    color: var(--color-on-surface-variant);
+  }
+
+  .coverage-title {
+    @include mixins.type(label-lg);
+    color: var(--color-on-surface);
+  }
+}

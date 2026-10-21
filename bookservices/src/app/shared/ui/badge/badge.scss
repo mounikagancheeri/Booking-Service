@@ -1,0 +1,34 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.125rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  @include mixins.type(label-caps);
+  white-space: nowrap;
+}
+
+:host(.badge--neutral) {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+}
+
+:host(.badge--primary) {
+  background: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
+}
+
+:host(.badge--verified) {
+  background: var(--color-verified-bg);
+  border-color: var(--color-verified-border);
+  color: var(--color-verified);
+}
+
+:host(.badge--accent) {
+  background: var(--color-accent-bg);
+  border-color: var(--color-accent-border);
+  color: var(--color-secondary);
+}

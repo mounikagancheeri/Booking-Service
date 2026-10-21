@@ -1,0 +1,32 @@
+<header class="bar">
+  <div class="brand-block">
+    <div class="brand">
+      <span class="name">SkillConnect</span>
+      <app-badge variant="primary">Pro</app-badge>
+    </div>
+    <button type="button" class="location" (click)="changeLocation.emit()">
+      <app-icon class="pin" name="location_on" [size]="15" filled />
+      <span class="location-text">{{ location() }}</span>
+      <span class="visually-hidden">, change location</span>
+      <app-icon name="expand_more" [size]="16" />
+    </button>
+  </div>
+
+  <div class="tools">
+    <button
+      type="button"
+      class="icon-button"
+      [attr.aria-label]="notificationsLabel()"
+      (click)="openNotifications.emit()"
+    >
+      <app-icon name="notifications" [size]="22" />
+      @if (unreadCount() > 0) {
+        <span class="dot" aria-hidden="true"></span>
+      }
+    </button>
+    <div class="user">
+      <app-avatar [name]="userName()" [src]="userAvatarUrl()" [size]="32" />
+      <span class="user-name">{{ userName() }}</span>
+    </div>
+  </div>
+</header>

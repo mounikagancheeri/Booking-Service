@@ -1,0 +1,103 @@
+@use '../../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.days {
+  display: flex;
+  gap: 0.625rem;
+  margin-inline: calc(var(--page-margin) * -1);
+  padding: var(--space-xs) var(--page-margin);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  // Edge-to-edge scrolling only makes sense on phones.
+  @include mixins.bp(tablet) {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
+  &.expanded {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+}
+
+.day {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  padding: 0.75rem var(--space-sm);
+  border-radius: 1.125rem;
+  background: var(--color-surface-lowest);
+  color: var(--color-on-surface);
+  box-shadow: var(--shadow-1);
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    width 150ms ease;
+
+  .expanded & {
+    width: auto;
+  }
+
+  &:hover {
+    background: var(--color-surface-container);
+  }
+
+  &:has(input:focus-visible) {
+    box-shadow: var(--focus-ring);
+  }
+
+  &.selected {
+    width: 96px;
+    background: var(--color-primary-container);
+    color: var(--color-on-primary);
+    box-shadow: var(--shadow-primary);
+  }
+}
+
+.caption {
+  @include mixins.type(label-caps);
+  color: var(--color-on-surface-variant);
+
+  .selected & {
+    color: var(--color-primary-fixed);
+  }
+}
+
+.number {
+  margin-top: 0.125rem;
+  @include mixins.type(headline-lg);
+}
+
+.month {
+  @include mixins.type(label-sm);
+  color: var(--color-on-surface-variant);
+  white-space: nowrap;
+
+  .selected & {
+    color: var(--color-on-primary);
+  }
+}
+
+.empty {
+  @include mixins.type(body-sm);
+  color: var(--color-on-surface-variant);
+}

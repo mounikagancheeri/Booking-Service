@@ -1,0 +1,26 @@
+@use '../../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--color-verified-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-verified-bg);
+  color: var(--color-verified);
+  @include mixins.type(label-md);
+}

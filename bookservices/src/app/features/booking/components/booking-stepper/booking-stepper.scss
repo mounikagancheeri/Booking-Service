@@ -1,0 +1,53 @@
+@use '../../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+ol {
+  display: flex;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.bar {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-highest);
+
+  .done & {
+    background: var(--color-tertiary-container);
+  }
+
+  .current & {
+    background: var(--color-primary-container);
+  }
+}
+
+.name {
+  max-width: 100%;
+  @include mixins.type(label-sm);
+  text-align: center;
+  color: var(--color-on-surface-variant);
+
+  .done & {
+    color: var(--color-tertiary);
+  }
+
+  .current & {
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+}

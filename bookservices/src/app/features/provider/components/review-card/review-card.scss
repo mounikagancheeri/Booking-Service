@@ -1,0 +1,55 @@
+@use '../../../../../styles/mixins';
+
+:host {
+  display: block;
+}
+
+article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-lowest);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.who {
+  flex: 1;
+  min-width: 0;
+}
+
+.author {
+  @include mixins.type(label-lg);
+}
+
+.meta {
+  @include mixins.type(label-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.stars {
+  display: inline-flex;
+  color: var(--color-star);
+}
+
+blockquote {
+  margin: 0;
+  @include mixins.type(body-sm);
+  color: var(--color-on-surface);
+}
+
+.service {
+  align-self: flex-start;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+  @include mixins.type(label-sm);
+}

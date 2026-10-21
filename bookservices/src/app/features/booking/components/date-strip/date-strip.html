@@ -1,0 +1,34 @@
+<fieldset>
+  <legend class="visually-hidden">{{ label() }}</legend>
+  <div class="days" [class.expanded]="expanded()">
+    @for (day of days(); track day.iso) {
+      @let checked = day.iso === selected();
+      <label class="day" [class.selected]="checked" [class.today]="day.isToday">
+        <input
+          type="radio"
+          class="visually-hidden"
+          [name]="name"
+          [value]="day.iso"
+          [checked]="checked"
+          [attr.aria-label]="(day.isToday ? 'Today, ' : '') + day.longLabel"
+          (change)="selected.set(day.iso)"
+        />
+        <span class="caption" aria-hidden="true">
+          @if (day.isToday) {
+            Today
+          } @else if (checked) {
+            Selected
+          } @else {
+            {{ day.weekday }}
+          }
+        </span>
+        <span class="number" aria-hidden="true">{{ day.dayNumber }}</span>
+        <span class="month" aria-hidden="true">
+          {{ checked || day.isToday ? day.weekday + ', ' + day.month : day.month }}
+        </span>
+      </label>
+    } @empty {
+      <p class="empty">No dates are open for booking.</p>
+    }
+  </div>
+</fieldset>

@@ -1,0 +1,14 @@
+@if (loading()) {
+  <span class="frame skeleton" aria-hidden="true"></span>
+} @else {
+  @if (src() && !imageFailed()) {
+    <img class="frame" [src]="src()" [alt]="name()" (error)="imageFailed.set(true)" />
+  } @else {
+    <span class="frame initials" role="img" [attr.aria-label]="name()">{{ initials() }}</span>
+  }
+  @if (verified()) {
+    <span class="verified">
+      <app-icon name="verified" [size]="12" filled label="Verified professional" />
+    </span>
+  }
+}

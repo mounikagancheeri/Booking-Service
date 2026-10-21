@@ -1,0 +1,89 @@
+@use '../../../../styles/mixins';
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 48px;
+  padding: 0.625rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  @include mixins.type(label-lg);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+  @include mixins.focus-ring;
+}
+
+:host(.btn--sm) {
+  min-height: 36px;
+  padding: 0.375rem 0.75rem;
+  @include mixins.type(label-md);
+}
+
+:host(.btn--full) {
+  width: 100%;
+}
+
+:host(.btn--primary) {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-primary);
+}
+
+:host(.btn--primary:hover) {
+  background: var(--color-primary-hover);
+}
+
+:host(.btn--accent) {
+  background: var(--color-accent);
+  color: var(--color-on-primary);
+}
+
+:host(.btn--accent:hover) {
+  background: var(--color-accent-hover);
+}
+
+:host(.btn--secondary) {
+  background: var(--color-surface-lowest);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-1);
+  color: var(--color-on-surface);
+}
+
+:host(.btn--secondary:hover) {
+  background: var(--color-surface-low);
+}
+
+:host(.btn--ghost) {
+  background: transparent;
+  color: var(--color-primary-container);
+}
+
+:host(.btn--ghost:hover) {
+  background: var(--color-surface-container);
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+:host(.btn--loading) {
+  opacity: 0.8;
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+}

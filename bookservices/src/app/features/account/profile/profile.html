@@ -1,0 +1,58 @@
+<main class="page">
+  <header class="title">
+    <h1>Profile</h1>
+  </header>
+
+  <section class="me" aria-label="Your details">
+    <app-avatar [name]="session.name()" [size]="64" />
+    <span class="me-text">
+      <strong>{{ session.name() }}</strong>
+      <span>{{ session.formattedPhone() }}</span>
+      <span>{{ session.email() }}</span>
+    </span>
+  </section>
+
+  <dl class="stats">
+    @for (stat of stats; track stat.label) {
+      <div class="stat" [class.stat--highlight]="stat.highlight">
+        <dt>{{ stat.label }}</dt>
+        <dd>{{ stat.value }}</dd>
+      </div>
+    }
+  </dl>
+
+  <section class="refer">
+    <span class="refer-text">
+      <strong>Refer a friend, get ₹200</strong>
+      <span>They get ₹200 off their first booking too</span>
+    </span>
+    <button type="button" (click)="invite()">Invite</button>
+  </section>
+  @if (inviteStatus(); as status) {
+    <p class="status" role="status">{{ status }}</p>
+  }
+
+  <nav class="menu" aria-label="Account">
+    @for (link of links; track link.label) {
+      @if (link.route; as route) {
+        <a class="row" [routerLink]="route">
+          <span class="icon-chip row-icon"><app-icon [name]="link.icon" [size]="18" /></span>
+          <span class="row-label">{{ link.label }}</span>
+          <app-icon class="chevron" name="chevron_right" [size]="20" />
+        </a>
+      } @else {
+        <span class="row row--soon">
+          <span class="icon-chip row-icon"><app-icon [name]="link.icon" [size]="18" /></span>
+          <span class="row-label">{{ link.label }}</span>
+          <span class="soon">Coming soon</span>
+        </span>
+      }
+    }
+  </nav>
+
+  <button type="button" class="logout" (click)="logOut()">
+    <app-icon name="logout" [size]="20" /> Log out
+  </button>
+</main>
+
+<app-bottom-nav [items]="navItems" activeId="profile" />

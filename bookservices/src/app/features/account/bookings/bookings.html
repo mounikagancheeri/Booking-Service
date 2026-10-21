@@ -1,0 +1,70 @@
+<main class="page">
+  <header class="title">
+    <h1>My bookings</h1>
+  </header>
+
+  <div class="segments" role="group" aria-label="Show bookings">
+    <button type="button" [attr.aria-pressed]="tab() === 'upcoming'" (click)="tab.set('upcoming')">
+      Upcoming ({{ upcoming().length }})
+    </button>
+    <button type="button" [attr.aria-pressed]="tab() === 'past'" (click)="tab.set('past')">
+      Past
+    </button>
+  </div>
+
+  @if (tab() === 'upcoming') {
+    @for (booking of upcoming(); track booking.id) {
+      <article class="booking" [attr.aria-label]="booking.service + ', ' + when(booking)">
+        <div class="meta">
+          <span class="status" [class]="'status--' + booking.status">
+            {{ statusLabel[booking.status] }}
+          </span>
+          <span class="ref">{{ booking.id }}</span>
+        </div>
+        <div class="service">
+          <span class="icon-chip service-icon"><app-icon [name]="booking.icon" [size]="26" /></span>
+          <span class="text-stack service-text">
+            <strong>{{ booking.service }}</strong>
+            <span>{{ booking.providerName }} · {{ booking.detail }}</span>
+          </span>
+          <span class="price">{{ booking.price | currency: 'INR' : 'symbol' : '1.0-0' }}</span>
+        </div>
+        <p class="when">
+          <app-icon name="calendar_today" [size]="16" />
+          {{ when(booking) }}
+          <strong>{{ relative(booking) }}</strong>
+        </p>
+        <div class="actions">
+          <a class="action" [routerLink]="['/book', booking.providerId]">Reschedule</a>
+          <a class="action action--chat" routerLink="/messages">
+            <app-icon name="chat_bubble" [size]="16" /> Chat
+          </a>
+        </div>
+      </article>
+    } @empty {
+      <p class="empty-state">No upcoming bookings. <a routerLink="/">Book a service</a></p>
+    }
+  } @else {
+    <section class="past" aria-labelledby="past-heading">
+      <h2 id="past-heading">Recently completed</h2>
+      @for (booking of past(); track booking.id) {
+        <div class="past-row">
+          <span class="icon-chip past-icon"><app-icon [name]="booking.icon" [size]="20" /></span>
+          <span class="text-stack service-text">
+            <strong>{{ booking.service }} · {{ booking.providerName }}</strong>
+            <span>
+              {{ when(booking) }} · {{ booking.price | currency: 'INR' : 'symbol' : '1.0-0' }}
+            </span>
+          </span>
+          <a class="action action--rebook" [routerLink]="['/book', booking.providerId]"
+            >Book again</a
+          >
+        </div>
+      } @empty {
+        <p class="empty-state">No past bookings yet.</p>
+      }
+    </section>
+  }
+</main>
+
+<app-bottom-nav [items]="navItems" activeId="bookings" />

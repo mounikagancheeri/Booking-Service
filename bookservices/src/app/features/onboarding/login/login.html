@@ -1,0 +1,52 @@
+<main class="page">
+  <header class="top">
+    <button type="button" class="back" aria-label="Go back" (click)="goBack()">
+      <app-icon name="chevron_left" [size]="24" />
+    </button>
+    <app-onboarding-steps [current]="1" />
+    <span class="spacer"></span>
+  </header>
+
+  <section class="intro">
+    <h1>Enter your phone number</h1>
+    <p>We’ll send a 6-digit code to verify it’s you. No passwords to remember.</p>
+  </section>
+
+  <form class="form" novalidate (submit)="submit($event)">
+    <div class="field">
+      <label for="phone">Mobile number</label>
+      <div class="phone-row">
+        <span class="code">IN +91</span>
+        <input
+          id="phone"
+          type="tel"
+          inputmode="numeric"
+          autocomplete="tel-national"
+          placeholder="98765 43210"
+          [value]="phone()"
+          [attr.aria-invalid]="showError()"
+          [attr.aria-describedby]="showError() ? 'phone-error' : null"
+          (input)="setPhone($any($event.target).value)"
+        />
+      </div>
+      @if (showError()) {
+        <p id="phone-error" class="error">Enter a 10-digit mobile number starting with 6-9.</p>
+      }
+    </div>
+
+    <label class="opt-in">
+      <input type="checkbox" [checked]="whatsapp()" (change)="whatsapp.set(!whatsapp())" />
+      Send booking updates on WhatsApp
+    </label>
+
+    <button appButton type="submit" fullWidth>Get OTP</button>
+  </form>
+
+  <aside class="privacy">
+    <app-icon name="verified_user" [size]="20" />
+    <p>
+      Your number is only shared with the professional you book. By continuing you agree to our
+      Terms and Privacy Policy.
+    </p>
+  </aside>
+</main>
